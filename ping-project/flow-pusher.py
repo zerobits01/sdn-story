@@ -34,12 +34,23 @@ class StaticFlowPusher(object):
         print(r)
         return r
 
+    def listFirewallRules(self):
+        '''
+            requests and returns all firewall enabled rules
+        '''
+        list_rules_url = self.server + ':' + self.port + "/wm/firewall/rules/json"
+        response = requests.get(list_rules_url)
+        print(response.json())
+        return response
+
     def addFirewallRule(self, rule):
         '''
             adds a firewall rule
         '''
         url_add_rule = self.server + ':' + self.port + "/wm/firewall/rules/json"
         r = requests.post(url_add_rule, data=rule, auth=('sdn','rocks'))
+        print(r)
+
 
     def getSwitches(self):
         '''
@@ -127,6 +138,70 @@ flow3 = {
 }
 
 
-pusher.addStaticFlow(payload=flow1)
-pusher.addStaticFlow(payload=flow2)
-pusher.addStaticFlow(payload=flow3)
+# pusher.addStaticFlow(payload=flow1)
+# pusher.addStaticFlow(payload=flow2)
+# pusher.addStaticFlow(payload=flow3)
+
+# because icmp is a high level protocol(higher than 2 we can not block it with flows we have to do it with firewall)
+# so first we have to block all packet types then just enable ping
+rule1 = { "dst-mac": "00:00:00:00:00:04", 
+        "src-ip": "00:00:00:00:00:05",
+        "nw-proto": "ICMP",
+    "action" : "DENY" 
+}
+
+rule2 = { "src-ip": "10.0.0.4", 
+    "dst-ip": "10.0.0.5", 
+    "action" : "DENY" 
+}
+
+rule0 = { "dst-ip": "10.0.0.7/32", 
+    "dst-ip": "10.0.0.3/32", 
+    "nw-proto" : "ICMP",
+    "action" : "DENY" 
+}
+
+
+rule = {'ruleid': -1139295682, 'dpid': '00:00:00:00:00:00:00:00', 'in_port': -1, 'dl_src': '00:00:00:00:00:00', 'dl_dst': '00:00:00:00:00:00', 'dl_type': 0, 'nw_src_prefix': '0.0.0.0', 'nw_src_maskbits': 0, 'nw_dst_prefix': '0.0.0.0', 'nw_dst_maskbits': 0, 'nw_proto': 0, 'tp_src': 0, 'tp_dst': 0, 'any_dpid': True, 'any_in_port': True, 'any_dl_src': True, 'any_dl_dst': True, 'any_dl_type': True, 'any_nw_src': True, 'any_nw_dst': True, 'any_nw_proto': True, 'any_tp_src': True, 'any_tp_dst': True, 'priority': 0, 'action': 'DENY'}
+
+
+block_rule = {
+"dpid":"00:00:00:00:00:00:00:00",
+"in_port":-1,"dl_src":"00:00:00:00:00:00",
+"dl_dst":"00:00:00:00:00:00",
+"dl_type":0,
+"nw_src_prefix":"0.0.0.0",
+"nw_src_maskbits":0,
+"nw_dst_prefix":"0.0.0.0",
+"nw_dst_maskbits":0,
+"nw_proto":0,"tp_src":0,
+"tp_dst":0,
+"any_dpid":"true",
+"any_in_port":"true",
+"any_dl_src":"true",
+"any_dl_dst":"true",
+"any_dl_type":"true",
+"any_nw_src":"true",
+"any_nw_dst":"true",
+"any_nw_proto":"true",
+"any_tp_src":"true",
+"any_tp_dst":"true",
+"priority":0,
+"action":"DENY"
+}
+
+
+pusher.enableFirewall()
+
+# pusher.addFirewallRule(rule0)
+# pusher.addFirewallRule(rule)
+# pusher.addFirewallRule(rule1)
+# pusher.addFirewallRule(rule2)
+pusher.addFirewallRule(block_rule)
+
+
+pusher.listFirewallRules()
+
+
+
+# curl_request = ""

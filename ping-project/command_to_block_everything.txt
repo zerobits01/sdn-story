@@ -1,0 +1,2 @@
+curl -X POST -d '{"ruleid":1962703386,"dpid":"00:00:00:00:00:00:00:00","in_port":-1,"dl_src":"00:00:00:00:00:00","dl_dst":"00:00:00:00:00:00","dl_type":0,"nw_src_prefix":"0.0.0.0","nw_src_maskbits":0,"nw_dst_prefix":"0.0.0.0","nw_dst_maskbits":0,"nw_proto":0,"tp_src":0,"tp_dst":0,"any_dpid":true,"any_in_port":true,"any_dl_src":true,"any_dl_dst":true,"any_dl_type":true,"any_nw_src":true,"any_nw_dst":true,"any_nw_proto":true,"any_tp_src":true,"any_tp_dst":true,"priority":0,"action":"DENY"}' http://localhost:8080/wm/firewall/rules/json
+
