@@ -1,0 +1,3 @@
+curl 172.16.141.133:8080/wm/firewall/module/enable/json -X PUT
+curl -X POST -d '{"src-ip": "10.0.0.4/32", "dst-ip": "10.0.0.5/32", "nw-proto":"ICMP"}' http://localhost:8080/wm/firewall/rules/json
+curl -X POST -d '{"src-ip": "10.0.0.5/32", "dst-ip": "10.0.0.4/32", "nw-proto":"ICMP"}' http://localhost:8080/wm/firewall/rules/json
