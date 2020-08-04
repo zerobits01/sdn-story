@@ -51,10 +51,9 @@ if parsed['usage']:
     print(usage)
     return
 
-server = "http://"
 
 if not parsed['server'].__contains__("http://"):
-    server += parsed['server']
+    server = parsed['server'].replace("http://", "")
 
 if not parsed['port']:
     port = "6653"
@@ -63,44 +62,33 @@ if not (parsed['mac1'] and parsed['mac2']) :
     print("you didn't enter mac addresses \nenter firewall --usage")
 
 
-"""
-$ ovs-vsctl add-br br0
-$ ovs-vsctl add-port br0 eth0
-$ ovs-vsctl add-port br0 eth1
-$ ovs-vsctl del-port # for deleting port
-# don't add the link to the controller and internets to the bridge
-
-set the protocol for each switch:
-$ ovs-vsctl set bridge br0 \
-    protocols=OpenFlow10,OpenFlow11,OpenFlow12,OpenFlow13
-
-$ ovs-ofctl -O OpenFlow13 dump-flows br0 # to check the flows
-$ ovs-vsctl show # to check the switch
-
-$ ovs-vsctl set-controller tcp:<ip-address>:port
-have to set up the ip addresses
-with ip link and ip addr commands
-$ ip link set ensX down
-$ ip address add ip/sub dev ensX
-$ ip link set ensX up
-"""
-
 def createBridge():
-    # TODO : adding the bridge
-    pass
+    if not os.system("ovs-vsctl add-br br0"):
+        print("[+] bridge created")
+    else:
+        print("[-] something went wrong!")
+        raise ValueError("[-] bridge couldn't be create")
 
 def addInterfaces():
-    # TODO : adding interfaces
-    pass
+    if len(parsed['numbers']) == 0 or parsed['interface'] == "":
+        raise ValueError('[-] enter args correctly!!')
+    for i in parsed['numbers']:
+        os.system(f"ovs-vsctl add-port br0 {parsed['interface']}{i}")
+
 
 def settingController():
     # TODO : setting controller
-    pass
+    if not os.system(f"ovs-vsctl set-controller tcp:{server}:{port}"):
+        print("[+] controller has been set")
+    else:
+        print("[-] something went wrong!")
+        raise ValueError("[-] controller couldn't be set")
+
 
 def settingProtocols():
-    # TODO : setting protocols
-    pass
+    if not os.system("ovs-vsctl set bridge br0 protocols=OpenFlow13"):
+        print("[+] protocol has been set")
+    else:
+        print("[-] something went wrong!")
+        raise ValueError("[-] protocol couldn't be set")
 
-def setIP():
-    # setting an interface ip
-    pass
