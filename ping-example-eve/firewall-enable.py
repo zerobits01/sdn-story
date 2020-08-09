@@ -2,7 +2,7 @@
     author: zerobits01
     purpose: enabling firewall, giving access to just two nodes with entered mac
     created at: 4-Aug-2020
-    modified at: 4-Aug-2020
+    modified at: 9-Aug-2020
 """
 
 import argparse
@@ -28,12 +28,12 @@ argument_parser = argparse.ArgumentParser(
 
 argument_parser.add_argument('-s' , '--server' ,
                         help='enter the server ip here' ,
-                            type=str , required=True)
+                            type=str)
 
 
 argument_parser.add_argument('-p' , '--port' ,
                         help='enter the server rest api port here' ,
-                            type=str, required=True)
+                            type=str)
 
 argument_parser.add_argument('--smac' ,
                         help='enter the source mac address' ,
@@ -51,15 +51,25 @@ argument_parser.add_argument('--dip' ,
                         help='enter the destination ip address' ,
                             type=str)
 
+argument_parser.add_argument('--protocol' ,
+                        help='enter the protocol here' ,
+                            type=str, required=True)
+
 argument_parser.add_argument('-u' , '--usage' ,
                         help='print the examples' ,
-                            action="store_const", const=True, default=False)
+                            action='store_const', const=True, default=False)
 
 argument_parser.add_argument('-e' , '--enable' ,
                         help='enable firewall' ,
                             action="store_const", const=True, default=False)
 
-argument_parser.add_argument('-a' , '--add-rule' ,
+
+argument_parser.add_argument('-l' , '--list' ,
+                        help='list firewall rules' ,
+                            action="store_const", const=True, default=False)
+
+
+argument_parser.add_argument('-a' , '--addrule' ,
                         help='enable firewall' ,
                             action="store_const", const=True, default=False)
 
@@ -75,7 +85,7 @@ parsed = argument_parser.parse_args()
 
 class Rule:
 
-    def __init__(self, sip, dip, smac, dmac):
+    def __init__(self, sip, dip, smac, dmac, protocol):
         '''
             this is the intiator of Rule
             at two mac or two ip addresses should be passed and protocol
@@ -150,32 +160,38 @@ class FireWall:
         return r
 
 
-server = "http://"
 
-if not parsed['servekr'].k("http://"):
-    server += parsed['server']
 
-if not parsed['port']:
-    port = "6653"
+
+if parsed.server.__contains__("http://"):
+    server = parsed.server
+else:
+    server = "http://" + parsed.server
+
+
+if not parsed.port:
+    port = "8080"
+else:
+    port = parsed.port
 
 fw = FireWall(server, port)
 
-if parsed['usage']:
+if parsed.usage:
     print(usage)
-    return
+    exit(0)
 
-if parsed['enable']:
+if parsed.enable:
     if fw.enableFirewall().status_code == 200:
         print("[+] enabled! :)")
     else:
         print("[-] something went wrong! :(")
-    return
 
-if parsed['list']:
+if parsed.addrule:
+    rule = Rule(sip=parsed.sip, dip=parsed.dip, smac=parsed.smac, dmac=parsed.dmac, protocol=parsed.protocol)
+
+
+if parsed.list:
     fw.listFirewallRules()
-    return
+    exit(0)
 
-if parsed['add-rule']:
-    rule = Rule(sip=parsed['sip'], dip=parsed['dip'], smac=parsed['smac'], dmac=parsed['dmac'])
-    fw.addRule(rule)
-    return
+# test : python3 firewall-enable.py --enable --list --smac "00:00:00:00:00:01" --dmac "00:00:00:00:00:02" --protocol "ICMP" --server 172.16.229.131 --port 8080
