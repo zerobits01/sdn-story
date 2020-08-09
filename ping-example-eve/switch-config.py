@@ -58,12 +58,12 @@ def addInterfaces():
     if len(parsed['numbers']) == 0 or parsed['interface'] == "":
         raise ValueError('[-] enter args correctly!!')
     for i in parsed['numbers']:
-        os.system(f"ovs-vsctl add-port br0 {parsed['interface']}{i}")
+        os.system(f"ovs-vsctl add-port br0 {parsed.interface{i}}")
 
 
 def settingController():
     # TODO : setting controller
-    if not os.system(f"ovs-vsctl set-controller tcp:{server}:{port}"):
+    if not os.system(f"ovs-vsctl set-controller tcp:{server}:{parsed.port}"):
         print("[+] controller has been set")
     else:
         print("[-] something went wrong!")
