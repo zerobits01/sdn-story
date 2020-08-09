@@ -10,6 +10,10 @@ import json
 import requests
 import argparse
 
+"""
+    Important : this is just a test i know that i have to check the input with regex
+"""
+
 
 argument_parser = argparse.ArgumentParser(
     description="""
@@ -30,36 +34,17 @@ argument_parser.add_argument('-p' , '--port' ,
                             type=str , required=True)
 
 argument_parser.add_argument('-i' , '--interface' ,
-                        help='interface name' ,
-                            type=str, required=True)
-
-argument_parser.add_argument('-i' , '--interface' ,
                         help='interface name e.g ens' ,
-                            required=True, type=str)
-
-
-argument_parser.add_argument('-n' , '--numbers' ,
-                        help='interface name e.g ens' ,
-                            required=True, type=int, nargs='+')
+                            required=True, type=str, nargs='+')
 
 
 
 parsed = argument_parser.parse_args()
 
 
-if parsed['usage']:
-    print(usage)
-    return
 
 
-if not parsed['server'].__contains__("http://"):
-    server = parsed['server'].replace("http://", "")
-
-if not parsed['port']:
-    port = "6653"
-
-if not (parsed['mac1'] and parsed['mac2']) :
-    print("you didn't enter mac addresses \nenter firewall --usage")
+server = parsed.server if parsed.server.__contains__("http://") else ( "http://" + parsed.server)
 
 
 def createBridge():
