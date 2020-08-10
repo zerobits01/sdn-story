@@ -1,6 +1,6 @@
 """
 author : zerobits01
-purpose: testing if how to interact with floodlight
+purpose: testing how to telnet a machine
 created: 10-Aug-2020 12:40
 modified: 10-Aug-2020 12:40
 """

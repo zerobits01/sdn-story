@@ -1,6 +1,6 @@
 """
 author : zerobits01
-purpose: testing if how to interact with floodlight
+purpose: testing how to interact with floodlight
 created: 9-Aug-2020 11:07
 modified: 9-Aug-2020 11:07
 """
