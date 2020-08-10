@@ -1,10 +1,10 @@
 todo:
     telnet-test
-    helpers-test
     cfg-data
     main module(connecting to each node and configuring it based on cfg data)
 
 done:
+    helpers-test
     helper
     telnet
     cfg-module
