@@ -1,6 +1,6 @@
 todo:
-    telnet-test
     cfg-data
+    configuration modules(for eaach of nodes i wanna config)
     main module(connecting to each node and configuring it based on cfg data)
 
 done:
@@ -8,3 +8,4 @@ done:
     helper
     telnet
     cfg-module
+    telnet-test

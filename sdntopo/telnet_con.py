@@ -11,33 +11,31 @@ import time
 
 
 class TelNode:
+
     def __init__(self, host, port):
         self.host = host
         self.port = port
-        self.node = None
-
-    def connectAuth(self, user, password):
         self.node = telnetlib.Telnet(self.host, self.port)
-        time.sleep(1)
         self.node.write(b"\n")
 
+
+    def connectAuth(self, user, password):
         output = self.node.read_until(b"ubuntu login: ")
         print(output.decode("ascii"))
-
         self.node.write((user + "\n").encode())
         self.node.read_until(b"Password: ")
         self.node.write((password + "\n").encode())
-
+        output = self.node.read_until(b"zerobits@ubuntu:~$ ")
+        return output.decode("ascii")
 
     def execCommand(self, commands):
         '''
             array of string commands should be passed
         '''
-        self.node.read_until(b"zerobits@ubuntu:~$ ")
         for command in commands:
-            self.node.write(command.encode())
-        output = self.node.read_until(b"zerobits@ubuntu:~$ ")
-        print(output.decode("ascii"))
+            self.node.write((command + "\n").encode())
+            output = self.node.read_until(b"zerobits@ubuntu:~$ ")
+        return output.decode("ascii")
 
     def closeNodeConnection(self):
         print(f"bye bye! from host {self.host}:)")
