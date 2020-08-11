@@ -7,9 +7,9 @@
     note: always tests run in order of alphabet
 """
 import unittest
-import os, sys
-sys.path.insert(1,".")
-from telnet_con import TelNode
+import sys
+sys.path.insert(1, ".")
+from helpers.telnet_con import TelNode
 
 class TestStringMethods(unittest.TestCase):
 

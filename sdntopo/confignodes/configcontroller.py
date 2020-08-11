@@ -7,3 +7,11 @@
 """
 
 # TODO: configuring one controller node
+
+def controllerConf(interface, ip, gw):
+    return [
+        f"ip link set {interface} down",
+        f"ip addr add {ip} dev {interface}",
+        f"ip link set {interface} up",
+        f"ip route add default via {gw} dev {interface}"
+    ]

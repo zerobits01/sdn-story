@@ -6,10 +6,9 @@
     description: running terminal should be at parent dir(where sdnhelpers module exists)
 """
 import unittest
-import os, sys
-sys.path.insert(1,".")
-import sdnhelpers as helpers
-
+import sys
+sys.path.insert(1, ".")
+from helpers import sdnhelpers
 
 
 class TestStringMethods(unittest.TestCase):
@@ -25,27 +24,27 @@ class TestStringMethods(unittest.TestCase):
     def test_validip1(self):
 
         print(f"[!] testcase : {self.valid_ip1}")
-        self.assertEqual(helpers.checkIPAddress(self.valid_ip1), True)
+        self.assertEqual(sdnhelpers.checkIPAddress(self.valid_ip1), True)
 
     def test_validip2(self):
         print(f"[!] testcase : {self.valid_ip2}")
-        self.assertTrue(helpers.checkIPAddress(self.valid_ip2))
+        self.assertTrue(sdnhelpers.checkIPAddress(self.valid_ip2))
 
     def test_invalidip(self):
         print(f"[!] testcase : {self.invalid_ip}")
-        self.assertFalse(helpers.checkIPAddress(self.invalid_ip))
+        self.assertFalse(sdnhelpers.checkIPAddress(self.invalid_ip))
 
     def test_portcheck(self):
         print(f"[!] testcase : {self.valid_port}")
-        self.assertTrue(helpers.checkPort(self.valid_port))
+        self.assertTrue(sdnhelpers.checkPort(self.valid_port))
 
     def test_invalid1_portcheck(self):
         print(f"[!] testcase : {self.invalid_port}")
-        self.assertFalse(helpers.checkPort(self.invalid_port))
+        self.assertFalse(sdnhelpers.checkPort(self.invalid_port))
 
     def test_invalid2_portcheck(self):
         print(f"[!] testcase : {self.invalid_port1}")
-        self.assertFalse(helpers.checkPort(self.invalid_port1))
+        self.assertFalse(sdnhelpers.checkPort(self.invalid_port1))
 
 if __name__ == '__main__':
     unittest.main()

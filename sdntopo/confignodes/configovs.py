@@ -6,3 +6,18 @@
 """
 
 # TODO: configuring three ovs switches
+
+def ovsConf(br, protocol, ip, port, ifaces):
+    commands = [
+        f"ovs-vsctl add-br {br}",
+        f"ovs-vsctl add-port {br} ens3"
+    ]
+
+    commands += [f"ovs-vsctl add-port {br} {interface}" for interface in ifaces]
+
+    commands += [
+        f"ovs-vsctl set bridge {br} protocols={protocol}",
+        f"ovs-vsctl set-controller tcp:{ip}:{port}"
+    ]
+
+    return commands
