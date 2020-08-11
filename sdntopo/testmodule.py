@@ -1,4 +1,4 @@
-from confignodes import testFunc
+from confignodes import testclass
 
 
-testFunc()
+testclass.testFunc()

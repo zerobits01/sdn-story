@@ -1,1 +1,1 @@
-from .testclass import testFunc
+from . import testclass
