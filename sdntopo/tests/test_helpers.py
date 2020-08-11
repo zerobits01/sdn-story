@@ -11,7 +11,7 @@ sys.path.insert(1, ".")
 from helpers import sdnhelpers
 
 
-class TestStringMethods(unittest.TestCase):
+class TestHelpers(unittest.TestCase):
 
     def setUp(self):
         self.valid_ip1     = "192.168.1.1"

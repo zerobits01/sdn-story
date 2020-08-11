@@ -11,7 +11,7 @@ import sys
 sys.path.insert(1, ".")
 from helpers.telnet_con import TelNode
 
-class TestStringMethods(unittest.TestCase):
+class TestTelnet(unittest.TestCase):
 
     def setUp(self):
         self.host = "172.16.229.129"

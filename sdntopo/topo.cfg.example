@@ -1,3 +1,4 @@
+
 [host1]
 con_ip = 172.16.229.129
 con_port=32775
@@ -90,6 +91,3 @@ interface = ens3
 ip = 10.0.2.14/24
 gw = 10.0.2.1
 
-[router]
-con_ip = 172.16.229.129
-con_port=32782
