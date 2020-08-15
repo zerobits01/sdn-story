@@ -26,6 +26,6 @@ class TestTelnet(unittest.TestCase):
         self.assertEqual(self.newnode.connectAuth(self.user, self.password).__contains__("zerobits@ubuntu:~$ "), True)
 
     def test_execution(self):
-        self.assertNotEqual(self.newnode.execCommand(self.commands), "zerobits@ubuntu:~$ ")
+        self.assertNotEqual(self.newnode.execCommand(self.commands), True)
 if __name__ == "__main__":
     unittest.main()

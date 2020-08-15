@@ -34,8 +34,13 @@ class TelNode:
         '''
         for command in commands:
             self.node.write((command + "\n").encode())
-            output = self.node.read_until(b"zerobits@ubuntu:~$ ")
-        return output.decode("ascii")
+            output = self.node.read_until(b"zerobits@ubuntu:~$ ", timeout=1)
+            self.node.write(b"\n")
+        output = output.decode("ascii")
+        self.node.write(b"exit")
+        if output.__contains__("command not found") or output.__contains__("error"):
+            return False
+        return True
 
     def closeNodeConnection(self):
         print(f"bye bye! from host {self.host}:)")
