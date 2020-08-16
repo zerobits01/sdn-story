@@ -10,9 +10,9 @@
 
 def servertConf(interface, ip, gw):
     return [
-        f"ip link set {interface} down",
-        f"ip addr add {ip} dev {interface}",
-        f"ip link set {interface} up",
-        f"ip route add default via {gw} dev {interface}"
+        f"echo sdn | sudo -S ip link set {interface} down",
+        f"sudo ip addr add {ip} dev {interface}",
+        f"sudo ip link set {interface} up",
+        f"sudo ip route add default via {gw} dev {interface}"
     ]
 
