@@ -10,14 +10,13 @@
 def ovsConf(br, protocol, ip, port, ifaces):
     commands = [
         f"echo sdn | sudo -S ovs-vsctl add-br {br}",
-        f"sudo ovs-vsctl add-port {br} ens3"
     ]
 
     commands += [f"sudo ovs-vsctl add-port {br} {interface}" for interface in ifaces]
 
     commands += [
         f"sudo ovs-vsctl set bridge {br} protocols={protocol}",
-        f"sudo ovs-vsctl set-controller tcp:{ip}:{port}"
+        f"sudo ovs-vsctl set-controller {br} tcp:{ip}:{port}"
     ]
 
     return commands
