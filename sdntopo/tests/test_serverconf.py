@@ -24,8 +24,9 @@ class TestServer(unittest.TestCase):
         self.password = "sdn"
 
 
-
     def test_django_server_config(self):
+        print("[!] configuring django server")
+        print(self.cfg['django_server']['con_ip'], self.cfg['django_server']['con_port'])
         self.django_server.connectAuth(self.user, self.password)
         commands_list = configservers.servertConf(
             self.cfg['django_server']['interface'], self.cfg['django_server']['ip'], self.cfg['django_server']['gw'])
@@ -34,34 +35,41 @@ class TestServer(unittest.TestCase):
 
 
     def test_wp_server_config(self):
-        self.django_server.connectAuth(self.user, self.password)
+        print("[!] configuring wp server")
+        print(self.cfg['wp_server']['con_ip'], self.cfg['wp_server']['con_port'])
+        self.wp_server.connectAuth(self.user, self.password)
         commands_list = configservers.servertConf(
             self.cfg['wp_server']['interface'], self.cfg['wp_server']['ip'], self.cfg['wp_server']['gw'])
         self.assertEqual(self.wp_server.execCommand(
             commands_list), True)
 
     def test_django_db_config(self):
-        self.django_server.connectAuth(self.user, self.password)
+        print("[!] configuring django db server")
+        print(self.cfg['django_db']['con_ip'], self.cfg['django_db']['con_port'])
+        self.django_db.connectAuth(self.user, self.password)
         commands_list = configservers.servertConf(
             self.cfg['django_db']['interface'], self.cfg['django_db']['ip'], self.cfg['django_db']['gw'])
         self.assertEqual(self.django_db.execCommand(
             commands_list), True)
 
-
     def test_wp_db_config(self):
-        self.django_server.connectAuth(self.user, self.password)
+        print("[!] configuring wp db server")
+        print(self.cfg['wp_db']['con_ip'], self.cfg['wp_db']['con_port'])
+        self.wp_db.connectAuth(self.user, self.password)
         commands_list = configservers.servertConf(
             self.cfg['wp_db']['interface'], self.cfg['wp_db']['ip'], self.cfg['wp_db']['gw'])
         self.assertEqual(self.wp_db.execCommand(
             commands_list), True)
 
-
     def test_build_server_config(self):
-        self.django_server.connectAuth(self.user, self.password)
+        print("[!] configuring build server")
+        print(self.cfg['build_server']['con_ip'], self.cfg['build_server']['con_port'])
+        self.build_server.connectAuth(self.user, self.password)
         commands_list = configservers.servertConf(
-            self.cfg['build_Server']['interface'], self.cfg['build_Server']['ip'], self.cfg['build_Server']['gw'])
+            self.cfg['build_server']['interface'], self.cfg['build_server']['ip'], self.cfg['build_server']['gw'])
         self.assertEqual(self.build_server.execCommand(
             commands_list), True)
+
 
 if __name__ == "__main__":
     unittest.main()
