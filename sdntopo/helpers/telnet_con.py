@@ -37,7 +37,9 @@ class TelNode:
             output = self.node.read_until(b"zerobits@ubuntu:~$ ", timeout=1)
             self.node.write(b"\n")
         output = output.decode("ascii")
-        self.node.write(b"exit")
+        self.node.write(b"\n")
+        self.node.write(b"ping -c 15 8.8.8.8\n")
+        self.node.write(b"\n")
         if output.__contains__("command not found") or output.__contains__("error"):
             return False
         return True

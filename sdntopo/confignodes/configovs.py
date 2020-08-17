@@ -7,8 +7,11 @@
 
 # TODO: configuring three ovs switches
 
-def ovsConf(br, protocol, ip, port, ifaces):
+def ovsConf(br, protocol, ip, port, ifaces, iip=None, interface=None, gw=None):
     commands = [
+        # f"echo sdn | sudo -S ip addr add {iip} dev {interface}",
+        # "\n",
+        # f"sudo ip route add default via {gw} dev {interface}",
         f"echo sdn | sudo -S ovs-vsctl add-br {br}",
     ]
 
