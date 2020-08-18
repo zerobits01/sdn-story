@@ -9,6 +9,8 @@
 
 def hostConf(interface, ip, gw):
     return [
+        "\n",
         f"echo sdn | sudo -S ip addr add {ip} dev {interface} && sudo ip route add default via {gw} dev {interface}\n"
+        "\n"
     ]
 

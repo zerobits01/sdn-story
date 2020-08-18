@@ -22,21 +22,11 @@ echo examples
 echo curl 172.16.229.131:8080/wm/firewall/module/enable/json -X PUT
 echo curl -X POST -d '{"src-ip": "10.0.0.4/32", "dst-ip": "10.0.0.5/32", "nw-proto":"ICMP"}' http://172.16.229.131:8080/wm/firewall/rules/json
 echo curl -X POST -d '{"src-ip": "10.0.0.5/32", "dst-ip": "10.0.0.4/32", "nw-proto":"ICMP"}' http://172.16.229.131:8080/wm/firewall/rules/json
-echo curl -X POST -d '{"src-ip": "10.0.0.4/32", "dst-ip": "10.0.0.5/32", "nw-proto":"ARP"}' http://172.16.229.131:8080/wm/firewall/rules/json
-echo curl -X POST -d '{"src-ip": "10.0.0.5/32", "dst-ip": "10.0.0.4/32", "nw-proto":"ARP"}' http://172.16.229.131:8080/wm/firewall/rules/json
+echo curl -X POST -d '{"src-ip": "10.0.0.4/32", "dst-ip": "10.0.0.5/32", "dl-type":"ARP"}' http://172.16.229.131:8080/wm/firewall/rules/json
+echo curl -X POST -d '{"src-ip": "10.0.0.5/32", "dst-ip": "10.0.0.4/32", "dl-type":"ARP"}' http://172.16.229.131:8080/wm/firewall/rules/json
 
 echo \\n
 
-# admin
-echo -e admin \\n
-curl -X POST -d '{"src-ip": "10.0.1.10/32", "nw-proto":"ICMP"}' $ipport$add_url
-echo \\n
-curl -X POST -d '{"dst-ip": "10.0.1.10/32", "nw-proto":"ICMP"}' $ipport$add_url
-echo \\n
-curl -X POST -d '{"src-ip": "10.0.1.10/32", "nw-proto":"ARP"}' $ipport$add_url
-echo \\n
-curl -X POST -d '{"dst-ip": "10.0.1.10/32", "nw-proto":"ARP"}' $ipport$add_url
-echo -e admin set up \\n
 
 # django to db
 echo -e django to db \\n
@@ -44,9 +34,9 @@ curl -X POST -d '{"src-ip": "10.0.3.10/32", "dst-ip": "10.0.3.12/32", "nw-proto"
 echo \\n
 curl -X POST -d '{"dst-ip": "10.0.3.10/32", "src-ip": "10.0.3.12/32", "nw-proto":"ICMP"}' $ipport$add_url
 echo \\n
-curl -X POST -d '{"src-ip": "10.0.3.10/32", "dst-ip": "10.0.3.12/32", "nw-proto":"ARP"}' $ipport$add_url
+curl -X POST -d '{"src-ip": "10.0.3.10/32", "dst-ip": "10.0.3.12/32", "dl-type":"ARP"}' $ipport$add_url
 echo \\n
-curl -X POST -d '{"dst-ip": "10.0.3.10/32", "src-ip": "10.0.3.12/32", "nw-proto":"ARP"}' $ipport$add_url
+curl -X POST -d '{"dst-ip": "10.0.3.10/32", "src-ip": "10.0.3.12/32", "dl-type":"ARP"}' $ipport$add_url
 echo \\n
 echo -e django to db done\\n
 
@@ -57,9 +47,9 @@ curl -X POST -d '{"src-ip": "10.0.3.11/32", "dst-ip": "10.0.3.13/32", "nw-proto"
 echo \\n
 curl -X POST -d '{"dst-ip": "10.0.3.11/32", "src-ip": "10.0.3.13/32", "nw-proto":"ICMP"}' $ipport$add_url
 echo \\n
-curl -X POST -d '{"src-ip": "10.0.3.11/32", "dst-ip": "10.0.3.13/32", "nw-proto":"ARP"}' $ipport$add_url
+curl -X POST -d '{"src-ip": "10.0.3.11/32", "dst-ip": "10.0.3.13/32", "dl-type":"ARP"}' $ipport$add_url
 echo \\n
-curl -X POST -d '{"dst-ip": "10.0.3.11/32", "src-ip": "10.0.3.13/32", "nw-proto":"ARP"}' $ipport$add_url
+curl -X POST -d '{"dst-ip": "10.0.3.11/32", "src-ip": "10.0.3.13/32", "dl-type":"ARP"}' $ipport$add_url
 echo -e wp to db done \\n
 
 # build to all
@@ -81,21 +71,21 @@ echo \\n
 curl -X POST -d '{"dst-ip": "10.0.3.13/32", "src-ip": "10.0.3.14/32", "nw-proto":"ICMP"}' $ipport$add_url
 echo \\n
 
-curl -X POST -d '{"dst-ip": "10.0.3.14/32", "src-ip": "10.0.3.10/32", "nw-proto":"ARP"}' $ipport$add_url
+curl -X POST -d '{"dst-ip": "10.0.3.14/32", "src-ip": "10.0.3.10/32", "dl-type":"ARP"}' $ipport$add_url
 echo \\n
-curl -X POST -d '{"dst-ip": "10.0.3.14/32", "src-ip": "10.0.3.11/32", "nw-proto":"ARP"}' $ipport$add_url
+curl -X POST -d '{"dst-ip": "10.0.3.14/32", "src-ip": "10.0.3.11/32", "dl-type":"ARP"}' $ipport$add_url
 echo \\n
-curl -X POST -d '{"dst-ip": "10.0.3.14/32", "src-ip": "10.0.3.12/32", "nw-proto":"ARP"}' $ipport$add_url
+curl -X POST -d '{"dst-ip": "10.0.3.14/32", "src-ip": "10.0.3.12/32", "dl-type":"ARP"}' $ipport$add_url
 echo \\n
-curl -X POST -d '{"dst-ip": "10.0.3.14/32", "src-ip": "10.0.3.13/32", "nw-proto":"ARP"}' $ipport$add_url
+curl -X POST -d '{"dst-ip": "10.0.3.14/32", "src-ip": "10.0.3.13/32", "dl-type":"ARP"}' $ipport$add_url
 echo \\n
-curl -X POST -d '{"dst-ip": "10.0.3.10/32", "src-ip": "10.0.3.14/32", "nw-proto":"ARP"}' $ipport$add_url
+curl -X POST -d '{"dst-ip": "10.0.3.10/32", "src-ip": "10.0.3.14/32", "dl-type":"ARP"}' $ipport$add_url
 echo \\n
-curl -X POST -d '{"dst-ip": "10.0.3.11/32", "src-ip": "10.0.3.14/32", "nw-proto":"ARP"}' $ipport$add_url
+curl -X POST -d '{"dst-ip": "10.0.3.11/32", "src-ip": "10.0.3.14/32", "dl-type":"ARP"}' $ipport$add_url
 echo \\n
-curl -X POST -d '{"dst-ip": "10.0.3.12/32", "src-ip": "10.0.3.14/32", "nw-proto":"ARP"}' $ipport$add_url
+curl -X POST -d '{"dst-ip": "10.0.3.12/32", "src-ip": "10.0.3.14/32", "dl-type":"ARP"}' $ipport$add_url
 echo \\n
-curl -X POST -d '{"dst-ip": "10.0.3.13/32", "src-ip": "10.0.3.14/32", "nw-proto":"ARP"}' $ipport$add_url
+curl -X POST -d '{"dst-ip": "10.0.3.13/32", "src-ip": "10.0.3.14/32", "dl-type":"ARP"}' $ipport$add_url
 echo \\n
 
 echo -e build to all done \\n
@@ -107,10 +97,22 @@ curl -X POST -d '{"dst-ip": "10.0.3.14/32", "src-ip": "10.0.4.10/32", "nw-proto"
 echo \\n
 curl -X POST -d '{"src-ip": "10.0.3.14/32", "dst-ip": "10.0.4.10/32", "nw-proto":"ICMP"}' $ipport$add_url
 echo \\n
-curl -X POST -d '{"dst-ip": "10.0.3.14/32", "src-ip": "10.0.4.10/32", "nw-proto":"ARP"}' $ipport$add_url
+curl -X POST -d '{"dst-ip": "10.0.3.14/32", "src-ip": "10.0.4.10/32", "dl-type":"ARP"}' $ipport$add_url
 echo \\n
-curl -X POST -d '{"src-ip": "10.0.3.14/32", "dst-ip": "10.0.4.10/32", "nw-proto":"ARP"}' $ipport$add_url
+curl -X POST -d '{"src-ip": "10.0.3.14/32", "dst-ip": "10.0.4.10/32", "dl-type":"ARP"}' $ipport$add_url
 echo -e employee to build done\\n
+
+# admin
+echo -e admin \\n
+curl -X POST -d '{"src-ip": "10.0.1.10/32", "nw-proto":"ICMP"}' $ipport$add_url
+echo \\n
+curl -X POST -d '{"dst-ip": "10.0.1.10/32", "nw-proto":"ICMP"}' $ipport$add_url
+echo \\n
+curl -X POST -d '{"src-ip": "10.0.1.10/32", "dl-type":"ARP"}' $ipport$add_url
+echo \\n
+curl -X POST -d '{"dst-ip": "10.0.1.10/32", "dl-type":"ARP"}' $ipport$add_url
+echo -e admin set up \\n
+
 
 # disable and enable
 echo -e restarting \\n
