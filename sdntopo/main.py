@@ -6,9 +6,10 @@
 """
 import sys
 sys.path.insert(1, ".")
-from confignodes import *
-from helpers import *
 import settings
+from helpers import *
+from confignodes import *
+
 
 class NetworkInitializer:
 
@@ -98,15 +99,19 @@ class NetworkInitializer:
         self.build_server.execCommand(commands_list)
 
     def hostsSetup(self):
-        self.host1 = telnet_con.TelNode(self.cfg['host1']['con_ip'], self.cfg['host1']['con_port'])
-        self.host2 = telnet_con.TelNode(self.cfg['host2']['con_ip'], self.cfg['host2']['con_port'])
+        self.host1 = telnet_con.TelNode(
+            self.cfg['host1']['con_ip'], self.cfg['host1']['con_port'])
+        self.host2 = telnet_con.TelNode(
+            self.cfg['host2']['con_ip'], self.cfg['host2']['con_port'])
 
     def hostsConfig(self):
         self.host1.connectAuth(self.user, self.password)
-        commands_list = confighosts.hostConf(self.cfg['host1']['interface'], self.cfg['host1']['ip'], self.cfg['host1']['gw'])
+        commands_list = confighosts.hostConf(
+            self.cfg['host1']['interface'], self.cfg['host1']['ip'], self.cfg['host1']['gw'])
         self.host1.execCommand(commands_list)
         self.host2.connectAuth(self.user, self.password)
-        commands_list = confighosts.hostConf(self.cfg['host2']['interface'], self.cfg['host2']['ip'], self.cfg['host2']['gw'])
+        commands_list = confighosts.hostConf(
+            self.cfg['host2']['interface'], self.cfg['host2']['ip'], self.cfg['host2']['gw'])
         self.host2.execCommand(commands_list)
 
     def run(self):
@@ -159,12 +164,45 @@ class NetworkInitializer:
         self.build_server.execCommand(commands_list)
 
     def hostsSetupTest(self):
-        self.host1 = telnet_con.TelNode(self.cfg['host1']['con_ip'], self.cfg['host1']['con_port'])
+        self.host1 = telnet_con.TelNode(
+            self.cfg['host1']['con_ip'], self.cfg['host1']['con_port'])
 
     def hostsConfigTest(self):
         self.host1.connectAuth(self.user, self.password)
-        commands_list = confighosts.hostConf(self.cfg['host1']['interface'], self.cfg['host1']['ip'], self.cfg['host1']['gw'])
+        commands_list = confighosts.hostConf(
+            self.cfg['host1']['interface'], self.cfg['host1']['ip'], self.cfg['host1']['gw'])
         self.host1.execCommand(commands_list)
+
+    def setupFirewall(self):
+        '''
+            10.0.4.10 => buildserver 10.0.3.14 -/
+            10.0.3.10 => 10.0.3.12 -/
+            10.0.3.11 => 10.0.3.13 -/
+            10.0.3.14 => 3.10, 3.11, 3.12, 3.13
+            10.0.2.10 => * -/
+        '''
+        self.r1 = firewall.Rule(sip="10.0.1.10/32")
+        self.r2 = firewall.Rule(dip="10.0.1.10/32")
+        self.r3 = firewall.Rule(sip="10.0.4.10/32", dip="10.0.3.14/32")
+        self.r4 = firewall.Rule(sip="10.0.3.14/32", dip="10.0.4.10/32")
+        self.r5 = firewall.Rule(sip="10.0.3.11/32", dip="10.0.3.13/32")
+        self.r6 = firewall.Rule(sip="10.0.3.13/32", dip="10.0.3.11/32")
+        self.r7 = firewall.Rule(sip="10.0.3.10/32", dip="10.0.3.12/32")
+        self.r8 = firewall.Rule(sip="10.0.3.12/32", dip="10.0.3.10/32")
+        self.r9 = firewall.Rule(sip="10.0.3.14/32", dip="10.0.3.10/32")
+        self.r10 = firewall.Rule(sip="10.0.3.14/32", dip="10.0.3.11/32")
+        self.r11 = firewall.Rule(sip="10.0.3.14/32", dip="10.0.3.12/32")
+        self.r12 = firewall.Rule(sip="10.0.3.14/32", dip="10.0.3.10/32")
+        self.r13 = firewall.Rule(sip="10.0.3.10/32", dip="10.0.3.14/32")
+        self.r14 = firewall.Rule(sip="10.0.3.11/32", dip="10.0.3.14/32")
+        self.r15 = firewall.Rule(sip="10.0.3.12/32", dip="10.0.3.14/32")
+        self.r16 = firewall.Rule(sip="10.0.3.13/32", dip="10.0.3.14/32")
+        self.fw = firewall.FireWall("http://172.16.229.131", port="8080")
+        self.fw.enableFirewall()
+        self.fw.addFirewallRule(self.r1, self.r2, self.r3, self.r4, self.r5, self.r6, self.r7,
+                                self.r8, self.r9, self.r10, self.r11, self.r12, self.r13, self.r14, self.r15, self.r16)
+        self.fw.disableFirewall()
+        self.fw.enableFirewall()
 
     def runTest(self):
         print("[!] configuring router")
@@ -182,13 +220,24 @@ class NetworkInitializer:
         print("[!] configuring hosts")
         self.hostsSetupTest()
         self.hostsConfigTest()
-        print("[+] done!")
 
+        # print("[?] setting up floodlight firewall")
+        # self.setupFirewall()
 
 net = NetworkInitializer("zerobits", "sdn")
 # net.run() # do the configuration completely
 
 if __name__ == "__main__":
+    print("""
+        first of all do these steps and enter done:
+            > ssh root@172.16.229.129 # pass eve
+            > ./enable-nat.sh
+            also do the basics for router
+    """)
+    inp = input("enter done to continue: ")
+    # if inp == "fw":
+    #     net.setupFirewall()
+    #     exit(0)
     net.runTest()
     while True:
         s = input("enter \"exit\" to exit: ")

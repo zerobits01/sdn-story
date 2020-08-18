@@ -5,4 +5,5 @@ from . import configadmin
 from . import configcontroller
 from . import configovs
 from . import configservers
+from . import config_admin_nano
 

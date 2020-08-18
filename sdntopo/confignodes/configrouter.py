@@ -9,10 +9,10 @@
 
 """
 router config:
-10.0.0.10/24 # admin
-10.0.1.1/24 # tester
-10.0.2.1/24 # servers
-10.0.3.1/24 # employees
+10.0.1.10/24 # admin
+10.0.2.1/24 # tester
+10.0.3.1/24 # servers
+10.0.4.1/24 # employees
 192.168.14.1/24 # internet
 """
 
@@ -26,19 +26,19 @@ def routerConf():
         "no shutdown",
         "exit",
         "interface fastEthernet 1/0",
-        "ip address 10.0.0.1 255.255.255.0",
+        "ip address 10.0.1.1 255.255.255.0",
         "no shutdown",
         "exit",
         "interface fastEthernet 2/0",
-        "ip address 10.0.2.1 255.255.255.0",
-        "no shutdown",
-        "exit",
-        "interface fastEthernet 3/0",
         "ip address 10.0.3.1 255.255.255.0",
         "no shutdown",
         "exit",
+        "interface fastEthernet 3/0",
+        "ip address 10.0.4.1 255.255.255.0",
+        "no shutdown",
+        "exit",
         "interface fastEthernet 4/0",
-        "ip address 10.0.1.1 255.255.255.0",
+        "ip address 10.0.2.1 255.255.255.0",
         "no shutdown",
         "exit",
         "interface fastEthernet 1/0",
